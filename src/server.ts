@@ -1,5 +1,8 @@
 import express from "express";
 import morgan from "morgan";
+import { db, setupDb}   from './dbSetup.js'
+import {getAllPlanets} from './controllers/server.js'
+
 
 const app = express();
 
@@ -11,9 +14,11 @@ app.use((req, res, next) => {
     next()
 })
 
-/*app.all("*", (req, res) => {
-    console.log("all")
-})*/
+console.log(db);
+setupDb()
+
+
+
 
 let planets = [
     {
@@ -28,9 +33,7 @@ let planets = [
 
 
 
-app.get("/api/v1/planets", (req, res) => {
-    res.status(200).json(planets);
-});
+app.get("/api/v1/planets", getAllPlanets);
 
 app.get("/api/v1/planets/:id", (req, res) => {
     const { id: stringId } = req.params;
